@@ -1,4 +1,5 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useState } from "react";
+import { v4 as uuid } from "uuid";
 import { initialState, videoReducer } from "../Reducer/VideoReducer";
 
 export const VideoContext = createContext();
@@ -6,6 +7,10 @@ export const VideoContext = createContext();
 // eslint-disable-next-line react/prop-types
 export const VideoProvider = ({ children }) => {
   const [state, dispatch] = useReducer(videoReducer, initialState);
+  const [title, setTitle] = useState({
+    id: uuid(),
+    titleName: "",
+  });
 
   const handleAddWatch = (video) => {
     const isVideoPresent = state?.watchLater?.find(
@@ -23,8 +28,24 @@ export const VideoProvider = ({ children }) => {
       dispatch({ type: "ADD_WATCH_LATER", payload: newWatchLaterVideo });
     }
   };
+
+  const handleRemoveWatch = (video) => {
+    const removedVideo = state?.watchLater?.filter(
+      (v) => v?._id !== video?._id
+    );
+    dispatch({ type: "REMOVE_WATCH_LATER", payload: removedVideo });
+  };
   return (
-    <VideoContext.Provider value={{ handleAddWatch, state, dispatch }}>
+    <VideoContext.Provider
+      value={{
+        handleAddWatch,
+        state,
+        dispatch,
+        handleRemoveWatch,
+        title,
+        setTitle,
+      }}
+    >
       {children}
     </VideoContext.Provider>
   );

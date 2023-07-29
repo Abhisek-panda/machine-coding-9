@@ -1,15 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
-import Sidebar from "../Components/Sidebar";
-import { useVideo } from "../main";
 
+import { useVideo } from "../main";
+import Sidebar from "../Components/Sidebar";
 import { GoClock, GoClockFill } from "react-icons/go";
 import { MdOutlinePlaylistAdd, MdNotes } from "react-icons/md";
 
 const SingleVideo = () => {
   const { videoId } = useParams();
+
   const {
     state: { allVideos, watchLater },
     handleAddWatch,
+    handleRemoveWatch,
   } = useVideo();
   const navigate = useNavigate();
 
@@ -23,7 +25,7 @@ const SingleVideo = () => {
   const handleSingleVideo = (videoId) => {
     navigate(`/video/${videoId}`);
   };
-  const watchLaterVideo = watchLater?.find(()=>)
+  const watchLaterVideo = watchLater?.find((v) => v?._id === singleVideo?._id);
 
   return (
     <div className="flex flex-row justify-between h-full w-full">
@@ -40,8 +42,11 @@ const SingleVideo = () => {
           />
           <h2 className="text-lg font-bold">{singleVideo?.title}</h2>
           <div className="flex gap-4">
-            {singleVideo ? (
-              <GoClockFill className="text-xl" />
+            {watchLaterVideo ? (
+              <GoClockFill
+                className="text-xl"
+                onClick={() => handleRemoveWatch(singleVideo)}
+              />
             ) : (
               <GoClock
                 className="text-xl"
@@ -53,7 +58,7 @@ const SingleVideo = () => {
           </div>
         </div>
         <div>
-          <h3>My Notes</h3>
+          <h3 className="text-xl font-semibold">My Notes</h3>
         </div>
       </div>
       <div className="h-screen overflow-y-scroll w-1/3 flex flex-col gap-5">
