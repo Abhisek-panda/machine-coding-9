@@ -28,7 +28,10 @@ const Playlists = () => {
   console.log(playlists);
 
   const handlePlaylist = () => {
-    dispatch({ type: "ADD_NEW_PLAYLIST", action: [...playlists, newPlaylist] });
+    dispatch({
+      type: "ADD_NEW_PLAYLIST",
+      payload: [...newPlaylist],
+    });
     setShowModal(false);
   };
 
@@ -38,14 +41,14 @@ const Playlists = () => {
         <Sidebar />
       </div>
       <div>
-        {playlists?.map((item) => {
+        {/* {playlists?.map((item) => {
           return (
             <div key={item?._id}>
               <img src={item?.thumbnail} alt={item?.title} />
               <h1 className="bg-blue-500">{item?.title}</h1>
             </div>
           );
-        })}
+        })} */}
         <BsFillPlusCircleFill onClick={() => setShowModal(true)} />
       </div>
 

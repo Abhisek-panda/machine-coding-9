@@ -6,12 +6,11 @@ export const initialState = {
   allVideos: videos,
   allCategory: categories,
   playlists: [
-    {
-      id: v4(),
-      title: "",
-      videos: [],
-      // thumbnail: "https://source.unsplash.com/random/",
-    },
+    // {
+    //   id: v4(),
+    //   title: "",
+    //   videos: [],
+    // }
   ],
   watchLater: [],
   searchVideo: videos,
@@ -35,7 +34,7 @@ export const videoReducer = (state, action) => {
         ...state,
         watchLater: action.payload,
       };
-    case "NEW_PLAYLIST_TITLE":
+    case "ADD_NEW_PLAYLIST":
       return {
         ...state,
         playlists: action.payload,
